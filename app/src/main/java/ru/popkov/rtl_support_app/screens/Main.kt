@@ -3,9 +3,7 @@ package ru.popkov.rtl_support_app.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,10 +18,11 @@ import ru.popkov.rtl_support_app.screens.navigation.Screens
 
 @Composable
 fun MainScreen(
+    modifier: Modifier = Modifier,
     navController: NavController,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
             .background(color = MaterialTheme.colorScheme.surface),
@@ -33,8 +32,10 @@ fun MainScreen(
         CommonButton(buttonText = stringResource(id = R.string.xml)) {
             navController.navigate(Screens.XML.route)
         }
-        Spacer(modifier = Modifier.height(40.dp))
-        CommonButton(buttonText = stringResource(id = R.string.compose)) {
+        CommonButton(
+            modifier = modifier.padding(top = 40.dp),
+            buttonText = stringResource(id = R.string.compose)
+        ) {
             navController.navigate(Screens.Compose.route)
         }
     }

@@ -50,7 +50,7 @@ fun RTLSubscriptionCard(
     val textColor = MaterialTheme.colorScheme.onSecondaryContainer
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
@@ -158,7 +158,6 @@ private fun RTLSubscriptionCardPreview() {
     RTLSupportAppTheme {
         Surface {
             RTLSubscriptionCard(
-                modifier = Modifier,
                 subscriptionData = RTLRepository().loadRTLSubscriptions().first(),
             )
         }

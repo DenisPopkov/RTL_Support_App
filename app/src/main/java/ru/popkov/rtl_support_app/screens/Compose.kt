@@ -101,11 +101,11 @@ fun ComposeScreen(
 
             subscriptions.forEachIndexed { index, data ->
                 RTLSubscriptionCard(
+                    modifier = modifier.padding(bottom = 12.dp),
                     subscriptionData = data,
                     isSelected = index == selectedCardIndex,
                     onClick = { selectedCardIndex = index }
                 )
-                Spacer(modifier = Modifier.padding(bottom = 12.dp))
             }
 
             SubscriptionOffer()
