@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -124,19 +125,29 @@ fun RTLSubscriptionCard(
         )
 
         bulletSpanList.forEach {
+            val isSingleLine = it.length < 42 // чтобы bullet рисовался по середине первой строки
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = if (!isSingleLine) Alignment.Top else Alignment.CenterVertically,
             ) {
-                Canvas(
+                Box(
+                    contentAlignment = Alignment.TopCenter,
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(size = 4.dp)
+                        .padding(top = if (!isSingleLine) 6.dp else 0.dp)
+                        .size(4.dp)
                 ) {
-                    drawCircle(color = textColor)
+                    Canvas(modifier = Modifier.matchParentSize()) {
+                        drawCircle(color = textColor)
+                    }
                 }
-                Text(text = it, style = GeometriaTextMedium14, color = textColor)
+                Text(
+                    text = it,
+                    style = GeometriaTextMedium14,
+                    color = textColor,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
         }
+
     }
 }
 

@@ -124,6 +124,7 @@ fun ComposeScreen(
 @Preview(wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
 @Preview(apiLevel = Build.VERSION_CODES.R)
 @Preview(apiLevel = Build.VERSION_CODES.P, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(locale = "ar")
 @Composable
 private fun ComposeScreenPreview() {
     RTLSupportAppTheme {
