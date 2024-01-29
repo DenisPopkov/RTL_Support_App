@@ -11,7 +11,7 @@ import ru.popkov.rtl_support_app.screens.XMLScreen
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.Main.route) {
+    NavHost(navController = navController, startDestination = Screens.Compose.route) {
         composable(route = Screens.Main.route) {
             MainScreen(navController = navController)
         }

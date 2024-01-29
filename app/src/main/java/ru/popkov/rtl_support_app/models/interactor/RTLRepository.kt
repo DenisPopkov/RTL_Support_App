@@ -12,16 +12,10 @@ class RTLRepository {
 val gameDetailMock = listOf(
     SubscriptionModel(
         subscriptionPrice = 189,
-        subscriptionRenewal = "",
         subscriptionType = SubscriptionType.MONTH,
-        subscriptionHint = "",
-        subscriptionDescription = ""
     ),
     SubscriptionModel(
         subscriptionPrice = 1890,
-        subscriptionRenewal = "",
         subscriptionType = SubscriptionType.ANNUAL,
-        subscriptionHint = "",
-        subscriptionDescription = ""
     )
 )

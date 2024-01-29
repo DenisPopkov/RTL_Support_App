@@ -89,7 +89,7 @@ fun RTLSubscriptionCard(
                         id = R.plurals.month,
                         count = subscriptionAmount,
                         amount,
-                    ),
+                    ).trim(),
                     style = GeometriaTextRegular20,
                     color = textColor,
                 )
@@ -112,7 +112,7 @@ fun RTLSubscriptionCard(
                 id = R.plurals.money_withdraw,
                 count = subscriptionAmount,
                 amount
-            ),
+            ).trim(),
             style = GeometriaTextMedium14,
             color = MaterialTheme.colorScheme.secondary
         )

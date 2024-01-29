@@ -8,8 +8,5 @@ enum class SubscriptionType {
 
 data class SubscriptionModel(
     val subscriptionPrice: Int,
-    val subscriptionRenewal: String,
     val subscriptionType: SubscriptionType,
-    val subscriptionHint: String,
-    val subscriptionDescription: String,
 )

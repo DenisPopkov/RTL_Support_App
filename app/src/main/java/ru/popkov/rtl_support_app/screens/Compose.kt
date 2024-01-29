@@ -4,34 +4,29 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
@@ -40,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.common.CommonButton
 import ru.popkov.rtl_support_app.common.RTLSubscriptionCard
+import ru.popkov.rtl_support_app.common.SubscriptionOffer
 import ru.popkov.rtl_support_app.models.interactor.RTLRepository
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
@@ -51,34 +47,30 @@ fun ComposeScreen(
     navController: NavController,
 ) {
     Scaffold(
-        modifier = modifier.padding(horizontal = 16.dp),
         topBar = {
-            CenterAlignedTopAppBar(
+            Box(
                 modifier = modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.surface)
                     .padding(top = 16.dp, bottom = 36.dp),
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                ),
-                title = {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = "App bar logo",
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+            ) {
+                IconButton(
+                    modifier = modifier.align(Alignment.CenterStart),
+                    onClick = { navController.navigateUp() }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_left_arrow),
+                        contentDescription = "App bar nav icon",
+                        tint = MaterialTheme.colorScheme.onSurface,
                     )
-                },
-                navigationIcon = {
-                    IconButton(modifier = modifier.offset(x = (-8).dp), onClick = {
-                        navController.navigateUp()
-                    }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_left_arrow),
-                            contentDescription = "App bar nav icon",
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                },
-            )
+                }
+                Image(
+                    modifier = modifier.align(Alignment.Center),
+                    painter = painterResource(id = R.drawable.ic_logo),
+                    contentDescription = "App bar logo",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                )
+            }
         },
     ) { innerPadding ->
 
@@ -88,6 +80,7 @@ fun ComposeScreen(
         Column(
             modifier = modifier
                 .background(color = MaterialTheme.colorScheme.surface)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues = innerPadding),
         ) {
@@ -126,41 +119,6 @@ fun ComposeScreen(
     }
 }
 
-@Composable
-fun SubscriptionOffer() {
-    val uriHandler = LocalUriHandler.current
-    val annotatedString = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
-            append(text = "${stringResource(id = R.string.decline_subscription)} ")
-        }
-
-        pushStringAnnotation(tag = "policy", annotation = "https://google.com/policy")
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            append(text = stringResource(id = R.string.decline_subscription_description_first))
-        }
-        pop()
-
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
-            append(text = " ${stringResource(id = R.string.decline_subscription_and)} ")
-        }
-
-        pushStringAnnotation(tag = "terms", annotation = "https://google.com/terms")
-
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            append(text = stringResource(id = R.string.decline_subscription_description_second))
-        }
-        pop()
-    }
-
-    ClickableText(text = annotatedString, style = GeometriaTextRegular16, onClick = { offset ->
-        annotatedString.getStringAnnotations(tag = "policy", start = offset, end = offset)
-            .firstOrNull()?.let { uriHandler.openUri(it.item) }
-
-        annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset)
-            .firstOrNull()?.let { uriHandler.openUri(it.item) }
-    })
-}
-
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
@@ -177,4 +135,3 @@ private fun ComposeScreenPreview() {
         }
     }
 }
-
