@@ -34,8 +34,6 @@ import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold20
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextMedium14
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular12
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular20
-import ru.popkov.rtl_support_app.ui.theme.GrayColor
-import ru.popkov.rtl_support_app.ui.theme.OrangeColor
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 import ru.popkov.rtl_support_app.utils.getSubscriptionAmountByType
 
@@ -48,18 +46,18 @@ fun RTLSubscriptionCard(
 ) {
     val subscriptionAmount = getSubscriptionAmountByType(subscriptionData.subscriptionType)
     val amount = if (subscriptionAmount <= 1) "" else subscriptionAmount
-    val textColor = MaterialTheme.colorScheme.onBackground
+    val textColor = MaterialTheme.colorScheme.onSecondaryContainer
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(size = 4.dp)
             )
             .border(
                 width = 2.dp,
-                color = if (isSelected) OrangeColor else Color.Transparent,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = RoundedCornerShape(size = 4.dp)
             )
             .padding(all = 20.dp)
@@ -101,9 +99,9 @@ fun RTLSubscriptionCard(
                     text = stringResource(id = R.string.popular_label),
                     style = GeometriaTextRegular12,
                     modifier = Modifier
-                        .background(color = OrangeColor)
+                        .background(color = MaterialTheme.colorScheme.primaryContainer)
                         .padding(vertical = 10.dp, horizontal = 15.dp),
-                    color = textColor,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }
@@ -116,7 +114,7 @@ fun RTLSubscriptionCard(
                 amount
             ),
             style = GeometriaTextMedium14,
-            color = GrayColor
+            color = MaterialTheme.colorScheme.secondary
         )
 
         val bulletSpanList = listOf(

@@ -1,6 +1,7 @@
 package ru.popkov.rtl_support_app.screens
 
 import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -41,7 +43,6 @@ import ru.popkov.rtl_support_app.common.RTLSubscriptionCard
 import ru.popkov.rtl_support_app.models.interactor.RTLRepository
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
-import ru.popkov.rtl_support_app.ui.theme.OrangeColor
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 
 @Composable
@@ -50,19 +51,20 @@ fun ComposeScreen(
     navController: NavController,
 ) {
     Scaffold(
+        modifier = modifier.padding(horizontal = 16.dp),
         topBar = {
             CenterAlignedTopAppBar(
                 modifier = modifier
                     .padding(top = 16.dp, bottom = 36.dp),
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.background,
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
                 ),
                 title = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo),
                         contentDescription = "App bar logo",
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                     )
                 },
                 navigationIcon = {
@@ -72,7 +74,7 @@ fun ComposeScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_left_arrow),
                             contentDescription = "App bar nav icon",
-                            tint = MaterialTheme.colorScheme.onBackground,
+                            tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 },
@@ -85,8 +87,7 @@ fun ComposeScreen(
 
         Column(
             modifier = modifier
-                .padding(horizontal = 16.dp)
-                .background(color = MaterialTheme.colorScheme.background)
+                .background(color = MaterialTheme.colorScheme.surface)
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues = innerPadding),
         ) {
@@ -95,14 +96,14 @@ fun ComposeScreen(
                 modifier = modifier.padding(top = 16.dp),
                 text = stringResource(id = R.string.label),
                 style = GeometriaTextBold28,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Text(
                 modifier = modifier.padding(top = 16.dp, bottom = 20.dp),
                 text = stringResource(id = R.string.label_description),
                 style = GeometriaTextRegular16,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             subscriptions.forEachIndexed { index, data ->
@@ -129,23 +130,23 @@ fun ComposeScreen(
 fun SubscriptionOffer() {
     val uriHandler = LocalUriHandler.current
     val annotatedString = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
             append(text = "${stringResource(id = R.string.decline_subscription)} ")
         }
 
         pushStringAnnotation(tag = "policy", annotation = "https://google.com/policy")
-        withStyle(style = SpanStyle(color = OrangeColor)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
             append(text = stringResource(id = R.string.decline_subscription_description_first))
         }
         pop()
 
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
             append(text = " ${stringResource(id = R.string.decline_subscription_and)} ")
         }
 
         pushStringAnnotation(tag = "terms", annotation = "https://google.com/terms")
 
-        withStyle(style = SpanStyle(color = OrangeColor)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
             append(text = stringResource(id = R.string.decline_subscription_description_second))
         }
         pop()
@@ -162,6 +163,9 @@ fun SubscriptionOffer() {
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
+@Preview(apiLevel = Build.VERSION_CODES.R)
+@Preview(apiLevel = Build.VERSION_CODES.P, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ComposeScreenPreview() {
     RTLSupportAppTheme {
