@@ -4,16 +4,14 @@
     <string name="label_description">Выберите тариф. Средства спишутся сразу после подтверждения оплаты. Следующее списание — в начале каждого нового расчетного периода. Подписками KLU можно управлять через меню профиля App Store.</string>
     <string name="subscription_price">%s ₽ /</string>
     <plurals name="month">
-        <item quantity="one">месяц</item>
-        <item quantity="two">%s месяца</item>
+        <item quantity="one">%s месяц</item>
         <item quantity="few">%s месяца</item>
         <item quantity="many">%s месяцев</item>
         <item quantity="other">%s месяцев</item>
     </plurals>
     <string name="popular_label">Популярный</string>
     <plurals name="money_withdraw">
-        <item quantity="one">Средства списываются каждый месяц</item>
-        <item quantity="two">Средства списываются каждые %s месяца</item>
+        <item quantity="one">Средства списываются каждый %s месяц</item>
         <item quantity="few">Средства списываются каждые %s месяца</item>
         <item quantity="many">Средства списываются каждые %s месяцев</item>
         <item quantity="other">Средства списываются каждые %s месяцев</item>
