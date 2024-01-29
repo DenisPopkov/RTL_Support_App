@@ -1,5 +1,6 @@
 package ru.popkov.rtl_support_app.common
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -13,11 +14,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,14 +30,13 @@ import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.models.SubscriptionModel
 import ru.popkov.rtl_support_app.models.SubscriptionType
 import ru.popkov.rtl_support_app.models.interactor.RTLRepository
-import ru.popkov.rtl_support_app.ui.theme.BackgroundCarbColor
-import ru.popkov.rtl_support_app.ui.theme.BlackColor
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold20
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextMedium14
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular12
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular20
 import ru.popkov.rtl_support_app.ui.theme.GrayColor
 import ru.popkov.rtl_support_app.ui.theme.OrangeColor
+import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 import ru.popkov.rtl_support_app.utils.getSubscriptionAmountByType
 
 @Composable
@@ -45,13 +48,18 @@ fun RTLSubscriptionCard(
 ) {
     val subscriptionAmount = getSubscriptionAmountByType(subscriptionData.subscriptionType)
     val amount = if (subscriptionAmount <= 1) "" else subscriptionAmount
+    val textColor = MaterialTheme.colorScheme.onBackground
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = BackgroundCarbColor, shape = RoundedCornerShape(size = 4.dp))
+            .background(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = RoundedCornerShape(size = 4.dp)
+            )
             .border(
                 width = 2.dp,
-                color = if (isSelected) OrangeColor else BackgroundCarbColor,
+                color = if (isSelected) OrangeColor else Color.Transparent,
                 shape = RoundedCornerShape(size = 4.dp)
             )
             .padding(all = 20.dp)
@@ -74,14 +82,18 @@ fun RTLSubscriptionCard(
                             id = R.string.subscription_price,
                             subscriptionData.subscriptionPrice
                         )
-                    } ", style = GeometriaTextBold20
+                    } ",
+                    style = GeometriaTextBold20,
+                    color = textColor,
                 )
                 Text(
                     text = pluralStringResource(
                         id = R.plurals.month,
                         count = subscriptionAmount,
                         amount,
-                    ), style = GeometriaTextRegular20
+                    ),
+                    style = GeometriaTextRegular20,
+                    color = textColor,
                 )
             }
             AnimatedVisibility(visible = subscriptionData.subscriptionType == SubscriptionType.MONTH) {
@@ -91,7 +103,7 @@ fun RTLSubscriptionCard(
                     modifier = Modifier
                         .background(color = OrangeColor)
                         .padding(vertical = 10.dp, horizontal = 15.dp),
-                    color = BlackColor
+                    color = textColor,
                 )
             }
         }
@@ -122,19 +134,24 @@ fun RTLSubscriptionCard(
                         .padding(horizontal = 8.dp)
                         .size(size = 4.dp)
                 ) {
-                    drawCircle(BlackColor)
+                    drawCircle(color = textColor)
                 }
-                Text(text = it, style = GeometriaTextMedium14)
+                Text(text = it, style = GeometriaTextMedium14, color = textColor)
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun RTLSubscriptionCardPreview() {
-    RTLSubscriptionCard(
-        modifier = Modifier,
-        subscriptionData = RTLRepository().loadRTLSubscriptions().first(),
-    )
+    RTLSupportAppTheme {
+        Surface {
+            RTLSubscriptionCard(
+                modifier = Modifier,
+                subscriptionData = RTLRepository().loadRTLSubscriptions().first(),
+            )
+        }
+    }
 }

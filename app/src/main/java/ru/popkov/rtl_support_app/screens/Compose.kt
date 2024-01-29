@@ -1,6 +1,6 @@
 package ru.popkov.rtl_support_app.screens
 
-import android.util.Log
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -22,6 +24,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -35,11 +39,10 @@ import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.common.CommonButton
 import ru.popkov.rtl_support_app.common.RTLSubscriptionCard
 import ru.popkov.rtl_support_app.models.interactor.RTLRepository
-import ru.popkov.rtl_support_app.ui.theme.BackgroundColor
-import ru.popkov.rtl_support_app.ui.theme.BlackColor
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
 import ru.popkov.rtl_support_app.ui.theme.OrangeColor
+import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 
 @Composable
 fun ComposeScreen(
@@ -52,13 +55,14 @@ fun ComposeScreen(
                 modifier = modifier
                     .padding(top = 16.dp, bottom = 36.dp),
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = BackgroundColor,
-                    titleContentColor = BackgroundColor,
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = "App bar logo"
+                        contentDescription = "App bar logo",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                     )
                 },
                 navigationIcon = {
@@ -67,7 +71,8 @@ fun ComposeScreen(
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_left_arrow),
-                            contentDescription = "App bar nav icon"
+                            contentDescription = "App bar nav icon",
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 },
@@ -81,7 +86,7 @@ fun ComposeScreen(
         Column(
             modifier = modifier
                 .padding(horizontal = 16.dp)
-                .background(color = BackgroundColor)
+                .background(color = MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues = innerPadding),
         ) {
@@ -90,13 +95,14 @@ fun ComposeScreen(
                 modifier = modifier.padding(top = 16.dp),
                 text = stringResource(id = R.string.label),
                 style = GeometriaTextBold28,
-                color = BlackColor,
+                color = MaterialTheme.colorScheme.onBackground,
             )
+
             Text(
                 modifier = modifier.padding(top = 16.dp, bottom = 20.dp),
                 text = stringResource(id = R.string.label_description),
                 style = GeometriaTextRegular16,
-                color = BlackColor,
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             subscriptions.forEachIndexed { index, data ->
@@ -121,8 +127,11 @@ fun ComposeScreen(
 
 @Composable
 fun SubscriptionOffer() {
+    val uriHandler = LocalUriHandler.current
     val annotatedString = buildAnnotatedString {
-        append(text = "${stringResource(id = R.string.decline_subscription)} ")
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+            append(text = "${stringResource(id = R.string.decline_subscription)} ")
+        }
 
         pushStringAnnotation(tag = "policy", annotation = "https://google.com/policy")
         withStyle(style = SpanStyle(color = OrangeColor)) {
@@ -130,7 +139,9 @@ fun SubscriptionOffer() {
         }
         pop()
 
-        append(text = " ${stringResource(id = R.string.decline_subscription_and)} ")
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+            append(text = " ${stringResource(id = R.string.decline_subscription_and)} ")
+        }
 
         pushStringAnnotation(tag = "terms", annotation = "https://google.com/terms")
 
@@ -142,23 +153,24 @@ fun SubscriptionOffer() {
 
     ClickableText(text = annotatedString, style = GeometriaTextRegular16, onClick = { offset ->
         annotatedString.getStringAnnotations(tag = "policy", start = offset, end = offset)
-            .firstOrNull()?.let {
-                Log.d("policy URL", it.item)
-            }
+            .firstOrNull()?.let { uriHandler.openUri(it.item) }
 
         annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset)
-            .firstOrNull()?.let {
-                Log.d("terms URL", it.item)
-            }
+            .firstOrNull()?.let { uriHandler.openUri(it.item) }
     })
 }
 
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ComposeScreenPreview() {
-    ComposeScreen(
-        modifier = Modifier,
-        navController = rememberNavController()
-    )
+    RTLSupportAppTheme {
+        Surface {
+            ComposeScreen(
+                modifier = Modifier,
+                navController = rememberNavController()
+            )
+        }
+    }
 }
 
