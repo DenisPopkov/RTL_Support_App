@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app.screens
+package ru.popkov.rtl_support_app.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
