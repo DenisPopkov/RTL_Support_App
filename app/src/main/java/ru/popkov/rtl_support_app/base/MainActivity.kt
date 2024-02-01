@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app
+package ru.popkov.rtl_support_app.base
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import ru.popkov.rtl_support_app.screens.navigation.Navigation
+import ru.popkov.rtl_support_app.navigation.Navigation
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 
 class MainActivity : AppCompatActivity() {

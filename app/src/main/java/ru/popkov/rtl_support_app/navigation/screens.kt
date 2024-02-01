@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app.screens.navigation
+package ru.popkov.rtl_support_app.navigation
 
 sealed class Screens(val route: String) {
     data object Main : Screens("main_screen")

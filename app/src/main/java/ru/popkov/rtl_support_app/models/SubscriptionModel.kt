@@ -7,6 +7,6 @@ enum class SubscriptionType {
 }
 
 data class SubscriptionModel(
-    val subscriptionPrice: Int,
-    val subscriptionType: SubscriptionType,
+    val subscriptionPrice: Int = 0,
+    val subscriptionType: SubscriptionType = SubscriptionType.MONTH,
 )

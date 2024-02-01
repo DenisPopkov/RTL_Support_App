@@ -8,7 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background_card_color">#FFF2F2F4</color>
-    <color name="gray_color">#BFC6CE</color>
-    <color name="orange_color">#EF8251</color>
+    <color name="background_card_color">#FF181818</color>
 </resources>

@@ -147,7 +147,6 @@ fun RTLSubscriptionCard(
                 )
             }
         }
-
     }
 }
 

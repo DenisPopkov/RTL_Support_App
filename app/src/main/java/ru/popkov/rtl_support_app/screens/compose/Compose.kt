@@ -1,7 +1,8 @@
-package ru.popkov.rtl_support_app.screens
+package ru.popkov.rtl_support_app.screens.compose
 
 import android.content.res.Configuration
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -30,13 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.common.CommonButton
 import ru.popkov.rtl_support_app.common.RTLSubscriptionCard
 import ru.popkov.rtl_support_app.common.SubscriptionOffer
-import ru.popkov.rtl_support_app.models.interactor.RTLRepository
+import ru.popkov.rtl_support_app.screens.xml.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
@@ -45,6 +49,7 @@ import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 fun ComposeScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    subscriptionsViewModel: SubscriptionsViewModel = viewModel()
 ) {
     Scaffold(
         topBar = {
@@ -74,8 +79,13 @@ fun ComposeScreen(
         },
     ) { innerPadding ->
 
-        val subscriptions = RTLRepository().loadRTLSubscriptions()
+        val subscriptions = subscriptionsViewModel.subscriptionsData.collectAsState()
+        val subscriptionData = subscriptions.value
         var selectedCardIndex by remember { mutableIntStateOf(value = 0) }
+
+        AnimatedVisibility(visible = subscriptionData.isLoading) {
+            CircularProgressIndicator()
+        }
 
         Column(
             modifier = modifier
@@ -99,12 +109,12 @@ fun ComposeScreen(
                 color = MaterialTheme.colorScheme.onSurface,
             )
 
-            subscriptions.forEachIndexed { index, data ->
+            subscriptionData.subscriptionModel.forEachIndexed { index, data ->
                 RTLSubscriptionCard(
                     modifier = modifier.padding(bottom = 12.dp),
                     subscriptionData = data,
                     isSelected = index == selectedCardIndex,
-                    onClick = { selectedCardIndex = index }
+                    onClick = { selectedCardIndex = index },
                 )
             }
 
@@ -113,7 +123,7 @@ fun ComposeScreen(
             Spacer(modifier = modifier.weight(1f))
             CommonButton(
                 modifier = modifier.padding(bottom = 10.dp, top = 36.dp),
-                buttonText = stringResource(id = R.string.subscribe_button)
+                buttonText = stringResource(id = R.string.subscribe_button),
             ) {}
         }
     }
@@ -131,7 +141,7 @@ private fun ComposeScreenPreview() {
         Surface {
             ComposeScreen(
                 modifier = Modifier,
-                navController = rememberNavController()
+                navController = rememberNavController(),
             )
         }
     }
