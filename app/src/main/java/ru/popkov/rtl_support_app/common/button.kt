@@ -23,7 +23,7 @@ fun CommonButton(
 ) {
     TextButton(
         onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 18.dp),
+        contentPadding = PaddingValues(vertical = 14.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         shape = RoundedCornerShape(size = 2.dp),
         modifier = modifier.fillMaxWidth(),

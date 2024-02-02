@@ -1,7 +1,6 @@
 package ru.popkov.rtl_support_app.common
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -46,7 +46,6 @@ fun RTLSubscriptionCard(
     onClick: () -> Unit = {}
 ) {
     val subscriptionAmount = getSubscriptionAmountByType(subscriptionData.subscriptionType)
-    val amount = if (subscriptionAmount <= 1) "" else subscriptionAmount
     val textColor = MaterialTheme.colorScheme.onSecondaryContainer
 
     Column(
@@ -54,14 +53,15 @@ fun RTLSubscriptionCard(
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(size = 4.dp)
+                shape = RoundedCornerShape(size = 2.dp)
             )
             .border(
                 width = 2.dp,
                 color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                shape = RoundedCornerShape(size = 4.dp)
+                shape = RoundedCornerShape(size = 2.dp)
             )
-            .padding(all = 20.dp)
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 16.dp)
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
@@ -70,9 +70,11 @@ fun RTLSubscriptionCard(
             },
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             Row {
                 Text(
@@ -86,25 +88,32 @@ fun RTLSubscriptionCard(
                     color = textColor,
                 )
                 Text(
+                    text = "/ ",
+                    style = GeometriaTextRegular20,
+                    color = textColor,
+                )
+                Text(
                     text = pluralStringResource(
                         id = R.plurals.month,
                         count = subscriptionAmount,
-                        amount,
+                        subscriptionAmount,
                     ).trim(),
                     style = GeometriaTextRegular20,
                     color = textColor,
                 )
             }
-            AnimatedVisibility(visible = subscriptionData.subscriptionType == SubscriptionType.MONTH) {
-                Text(
-                    text = stringResource(id = R.string.popular_label),
-                    style = GeometriaTextRegular12,
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.primaryContainer)
-                        .padding(vertical = 10.dp, horizontal = 15.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            }
+            Text(
+                text = stringResource(id = R.string.popular_label),
+                style = GeometriaTextRegular12,
+                modifier = Modifier
+                    .alpha(if (subscriptionData.subscriptionType == SubscriptionType.MONTH) 100f else 0f)
+                    .background(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(2.dp)
+                    )
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
         }
 
         Text(
@@ -112,7 +121,7 @@ fun RTLSubscriptionCard(
             text = pluralStringResource(
                 id = R.plurals.money_withdraw,
                 count = subscriptionAmount,
-                amount
+                subscriptionAmount
             ).trim(),
             style = GeometriaTextMedium14,
             color = MaterialTheme.colorScheme.secondary
@@ -127,6 +136,7 @@ fun RTLSubscriptionCard(
         bulletSpanList.forEach {
             val isSingleLine = it.length < 42 // чтобы bullet рисовался по середине первой строки
             Row(
+                modifier = modifier.padding(start = 8.dp, end = 20.dp),
                 verticalAlignment = if (!isSingleLine) Alignment.Top else Alignment.CenterVertically,
             ) {
                 Box(
@@ -143,7 +153,7 @@ fun RTLSubscriptionCard(
                     text = it,
                     style = GeometriaTextMedium14,
                     color = textColor,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(start = 10.dp),
                 )
             }
         }

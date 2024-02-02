@@ -9,7 +9,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import ru.popkov.rtl_support_app.R
-import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
+import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegularWithLineHeight16
 
 @Composable
 fun SubscriptionOffer() {
@@ -37,7 +37,10 @@ fun SubscriptionOffer() {
         pop()
     }
 
-    ClickableText(text = annotatedString, style = GeometriaTextRegular16, onClick = { offset ->
+    ClickableText(
+        text = annotatedString,
+        style = GeometriaTextRegularWithLineHeight16,
+        onClick = { offset ->
         annotatedString.getStringAnnotations(tag = "policy", start = offset, end = offset)
             .firstOrNull()?.let { uriHandler.openUri(it.item) }
 

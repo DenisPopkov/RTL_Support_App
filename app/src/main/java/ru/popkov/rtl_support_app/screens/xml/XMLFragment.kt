@@ -6,22 +6,22 @@ import android.os.Bundle
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.buildSpannedString
-import androidx.core.text.color
 import androidx.core.text.inSpans
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.base.MainActivity
 import ru.popkov.rtl_support_app.common.CardItemView
 import ru.popkov.rtl_support_app.databinding.FragmentMainBinding
+
 
 private const val GOOGLE_URL = "https://www.google.com"
 
@@ -58,11 +58,15 @@ class XMLFragment : Fragment() {
         }
 
         binding.privacyPolicy.apply {
+            val typedValue = TypedValue()
+            val theme = context.theme
+            val colorPrimaryResId = com.google.android.material.R.attr.colorPrimary
+            theme.resolveAttribute(colorPrimaryResId, typedValue, true)
+            val colorPrimary = ContextCompat.getColor(context, typedValue.resourceId)
+
             movementMethod = LinkMovementMethod.getInstance()
             text = buildSpannedString {
-                color(context.getColor(R.color.black)) {
-                    append("${getString(R.string.decline_subscription)} ")
-                }
+                append("${getString(ru.popkov.rtl_support_app.R.string.decline_subscription)} ")
                 inSpans(
                     span = object : ClickableSpan() {
                         override fun onClick(widget: View) {
@@ -71,16 +75,14 @@ class XMLFragment : Fragment() {
                         }
 
                         override fun updateDrawState(textPaint: TextPaint) {
-                            textPaint.color = ContextCompat.getColor(context, R.color.orange_color)
+                            textPaint.color = colorPrimary
                         }
                     },
                     builderAction = {
-                        append(getString(R.string.decline_subscription_description_first))
+                        append(getString(ru.popkov.rtl_support_app.R.string.decline_subscription_description_first))
                     }
                 )
-                color(context.getColor(R.color.black)) {
-                    append(" ${getString(R.string.decline_subscription_and)} ")
-                }
+                append(" ${getString(ru.popkov.rtl_support_app.R.string.decline_subscription_and)} ")
                 inSpans(
                     span = object : ClickableSpan() {
                         override fun onClick(widget: View) {
@@ -89,11 +91,11 @@ class XMLFragment : Fragment() {
                         }
 
                         override fun updateDrawState(textPaint: TextPaint) {
-                            textPaint.color = ContextCompat.getColor(context, R.color.orange_color)
+                            textPaint.color = colorPrimary
                         }
                     },
                     builderAction = {
-                        append(getString(R.string.decline_subscription_description_second))
+                        append(getString(ru.popkov.rtl_support_app.R.string.decline_subscription_description_second))
                     }
                 )
             }

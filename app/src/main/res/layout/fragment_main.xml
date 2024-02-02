@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context=".base.MainActivity">
 
@@ -15,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/backButton"
@@ -28,7 +26,8 @@
                 android:src="@drawable/ic_left_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnSurface" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -39,7 +38,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnSurface" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="16dp"
-        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -60,17 +59,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:lineSpacingExtra="2sp"
+                android:lineHeight="22sp"
                 android:text="@string/label"
-                android:textAppearance="@style/GeometriaTextBold28" />
+                android:textAppearance="@style/GeometriaTextBold28"
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:lineSpacingExtra="2sp"
+                android:layout_marginTop="12dp"
+                android:lineHeight="22sp"
                 android:text="@string/label_description"
-                android:textAppearance="@style/GeometriaTextRegular16" />
+                android:textAppearance="@style/GeometriaTextRegular16"
+                android:textColor="?attr/colorOnSurface" />
 
             <LinearLayout
                 android:id="@+id/subscriptionsContainer"
@@ -85,21 +86,23 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2sp"
                 android:text="@string/decline_subscription"
-                android:textAppearance="@style/GeometriaTextRegular16" />
+                android:textAppearance="@style/GeometriaTextRegular16"
+                android:textColor="?attr/colorOnSurface" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/subscriptionButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/item_shape"
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="14dp"
-                android:shadowColor="@null"
+                android:stateListAnimator="@null"
                 android:text="@string/subscribe_button"
                 android:textAppearance="@style/GeometriaTextRegular16"
-                android:textColor="@color/black" />
+                android:textColor="?attr/colorOnPrimaryContainer"
+                app:backgroundTint="?attr/colorPrimaryContainer"
+                app:cornerRadius="2dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

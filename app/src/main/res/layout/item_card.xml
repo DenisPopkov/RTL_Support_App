@@ -5,28 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/subscription_background"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="16dp">
+    android:paddingHorizontal="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/priceLabelContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/priceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2sp"
+            android:text="189 ₽"
+            android:textAppearance="@style/GeometriaTextBold20"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/monthLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginEnd="20dp"
-            android:text="189 ₽ / месяц"
+            android:layout_marginEnd="10dp"
+            android:lineSpacingExtra="2sp"
+            android:text=" / месяц"
+            android:textColor="?attr/colorOnSecondaryContainer"
             android:textAppearance="@style/GeometriaTextRegular20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/subscriptionPopularLabel"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/priceLabel" />
 
         <TextView
             android:id="@+id/subscriptionPopularLabel"
@@ -37,7 +50,7 @@
             android:paddingVertical="10dp"
             android:text="@string/popular_label"
             android:textAppearance="@style/GeometriaTextRegular12"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +64,7 @@
         android:layout_marginEnd="20dp"
         android:text="Средства списываются каждый месяц"
         android:textAppearance="@style/GeometriaTextMedium14"
-        android:textColor="@color/gray_color"
+        android:textColor="?attr/colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceLabelContainer" />
@@ -60,9 +73,11 @@
         android:id="@+id/subscriptionDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="?attr/colorOnSecondaryContainer"
         android:text="Полный доступ ко всем опросам\nРасшифровка результатов,\nличные рекомендации\nИстория и динамика результатов"
         android:textAppearance="@style/GeometriaTextMedium14"
         app:layout_constraintBottom_toBottomOf="parent"

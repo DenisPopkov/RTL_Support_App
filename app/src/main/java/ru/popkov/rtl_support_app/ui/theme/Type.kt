@@ -42,6 +42,13 @@ val GeometriaTextRegular16 = TextStyle(
     fontFamily = FontFamily(Font(R.font.geometria_normal)),
 )
 
+val GeometriaTextRegularWithLineHeight16 = TextStyle(
+    fontSize = 16.sp,
+    fontWeight = FontWeight.Normal,
+    fontFamily = FontFamily(Font(R.font.geometria_normal)),
+    lineHeight = 22.sp
+)
+
 val GeometriaTextMedium14 = TextStyle(
     fontSize = 14.sp,
     fontWeight = FontWeight.Normal,
