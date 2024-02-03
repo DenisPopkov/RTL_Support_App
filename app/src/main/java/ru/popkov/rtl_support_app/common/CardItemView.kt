@@ -15,6 +15,8 @@ import ru.popkov.rtl_support_app.models.SubscriptionModel
 import ru.popkov.rtl_support_app.models.SubscriptionType
 import ru.popkov.rtl_support_app.utils.dp
 import ru.popkov.rtl_support_app.utils.getSubscriptionAmountByType
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class CardItemView(
@@ -65,7 +67,7 @@ class CardItemView(
             context.resources.getQuantityString(
                 R.plurals.month,
                 monthAmount,
-                monthAmount,
+                NumberFormat.getInstance(Locale.getDefault()).format(monthAmount),
             ).trim()
         }"
 

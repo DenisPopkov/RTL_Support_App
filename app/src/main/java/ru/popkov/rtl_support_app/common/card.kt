@@ -37,6 +37,8 @@ import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular12
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular20
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 import ru.popkov.rtl_support_app.utils.getSubscriptionAmountByType
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun RTLSubscriptionCard(
@@ -96,7 +98,7 @@ fun RTLSubscriptionCard(
                     text = pluralStringResource(
                         id = R.plurals.month,
                         count = subscriptionAmount,
-                        subscriptionAmount,
+                        NumberFormat.getInstance(Locale.getDefault()).format(subscriptionAmount),
                     ).trim(),
                     style = GeometriaTextRegular20,
                     color = textColor,
@@ -121,7 +123,7 @@ fun RTLSubscriptionCard(
             text = pluralStringResource(
                 id = R.plurals.money_withdraw,
                 count = subscriptionAmount,
-                subscriptionAmount
+                NumberFormat.getInstance(Locale.getDefault()).format(subscriptionAmount),
             ).trim(),
             style = GeometriaTextMedium14,
             color = MaterialTheme.colorScheme.secondary
