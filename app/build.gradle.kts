@@ -7,6 +7,10 @@ android {
     namespace = "ru.popkov.rtl_support_app"
     compileSdk = 34
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "ru.popkov.rtl_support_app"
         minSdk = 28
@@ -18,7 +22,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        resourceConfigurations += listOf("en", "ru", "ar")
     }
 
     buildTypes {
