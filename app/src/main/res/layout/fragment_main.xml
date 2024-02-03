@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:lineHeight="22sp"
+                android:textAlignment="textStart"
                 android:text="@string/label_description"
                 android:textAppearance="@style/GeometriaTextRegular16"
                 android:textColor="?attr/colorOnSurface" />
