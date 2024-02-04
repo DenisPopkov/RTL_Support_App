@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
@@ -142,6 +143,7 @@ fun ComposeScreen(
 }
 
 @Preview(showBackground = true)
+@Preview(device = Devices.PIXEL_7)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE)
 @Preview(apiLevel = Build.VERSION_CODES.R)

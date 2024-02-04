@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,6 +26,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.popkov.rtl_support_app.R
@@ -108,6 +110,7 @@ fun RTLSubscriptionCard(
                 text = stringResource(id = R.string.popular_label),
                 style = GeometriaTextRegular12,
                 modifier = Modifier
+                    .widthIn(min = 100.dp)
                     .alpha(if (subscriptionData.subscriptionType == SubscriptionType.MONTH) 100f else 0f)
                     .background(
                         color = MaterialTheme.colorScheme.primaryContainer,
@@ -115,6 +118,7 @@ fun RTLSubscriptionCard(
                     )
                     .padding(vertical = 10.dp, horizontal = 15.dp),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
+                textAlign = TextAlign.Center,
             )
         }
 
