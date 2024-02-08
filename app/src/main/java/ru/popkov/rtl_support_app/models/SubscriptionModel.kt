@@ -9,4 +9,5 @@ enum class SubscriptionType {
 data class SubscriptionModel(
     val subscriptionPrice: Int = 0,
     val subscriptionType: SubscriptionType = SubscriptionType.MONTH,
+    val subscriptionOfferBulletList: List<Int>,
 )

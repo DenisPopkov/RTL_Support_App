@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
 import androidx.fragment.app.Fragment
@@ -19,8 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.popkov.rtl_support_app.base.MainActivity
-import ru.popkov.rtl_support_app.common.CardItemView
+import ru.popkov.rtl_support_app.common.xml.CardItemView
 import ru.popkov.rtl_support_app.databinding.FragmentMainBinding
+import ru.popkov.rtl_support_app.utils.getColorPrimary
 
 
 private const val GOOGLE_URL = "https://www.google.com"
@@ -58,12 +57,6 @@ class XMLFragment : Fragment() {
         }
 
         binding.privacyPolicy.apply {
-            val typedValue = TypedValue()
-            val theme = context.theme
-            val colorPrimaryResId = com.google.android.material.R.attr.colorPrimary
-            theme.resolveAttribute(colorPrimaryResId, typedValue, true)
-            val colorPrimary = ContextCompat.getColor(context, typedValue.resourceId)
-
             movementMethod = LinkMovementMethod.getInstance()
             text = buildSpannedString {
                 append("${getString(ru.popkov.rtl_support_app.R.string.decline_subscription)} ")
@@ -75,7 +68,7 @@ class XMLFragment : Fragment() {
                         }
 
                         override fun updateDrawState(textPaint: TextPaint) {
-                            textPaint.color = colorPrimary
+                            textPaint.color = getColorPrimary(context)
                         }
                     },
                     builderAction = {
@@ -91,7 +84,7 @@ class XMLFragment : Fragment() {
                         }
 
                         override fun updateDrawState(textPaint: TextPaint) {
-                            textPaint.color = colorPrimary
+                            textPaint.color = getColorPrimary(context)
                         }
                     },
                     builderAction = {

@@ -1,46 +1,26 @@
-package ru.popkov.rtl_support_app.common
+package ru.popkov.rtl_support_app.common.xml
 
 import android.content.Context
-import android.text.SpannableString
-import android.text.style.BulletSpan
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import ru.popkov.rtl_support_app.R
 import ru.popkov.rtl_support_app.models.SubscriptionModel
 import ru.popkov.rtl_support_app.models.SubscriptionType
 import ru.popkov.rtl_support_app.utils.dp
 import ru.popkov.rtl_support_app.utils.getSubscriptionAmountByType
+import ru.popkov.rtl_support_app.utils.toBulletedList
 import java.text.NumberFormat
 import java.util.Locale
-
 
 class CardItemView(
     context: Context,
     attrs: AttributeSet?,
 ) : ConstraintLayout(context, attrs) {
-
     init {
         View.inflate(context, R.layout.item_card, this).setPadding(0, 0, 0, 12.dp)
-    }
-
-    private fun List<String>.toBulletedList(): CharSequence {
-        val typedValue = TypedValue()
-        val theme = context.theme
-        val colorPrimaryResId = com.google.android.material.R.attr.colorOnSecondaryContainer
-        theme.resolveAttribute(colorPrimaryResId, typedValue, true)
-        val colorOnSecondaryContainer = ContextCompat.getColor(context, typedValue.resourceId)
-        return SpannableString(joinToString("\n")).apply {
-            this@toBulletedList.foldIndexed(0) { index, acc, span ->
-                val end = acc + span.length + if (index != this@toBulletedList.size - 1) 1 else 0
-                setSpan(BulletSpan(10.dp, colorOnSecondaryContainer, 2.dp), acc, end, 0)
-                end
-            }
-        }
     }
 
     fun bindData(
@@ -76,14 +56,8 @@ class CardItemView(
             monthAmount,
             monthAmount,
         ).trim()
-
-        val bulletSpanList = listOf(
-            context.getString(R.string.subscription_description_first_point),
-            context.getString(R.string.subscription_description_second_point),
-            context.getString(R.string.subscription_description_third_point)
-        ).toBulletedList()
-
-        subscriptionDescription.text = bulletSpanList
+        val bulletList = subscription.subscriptionOfferBulletList.map { context.getString(it) }
+        subscriptionDescription.text = bulletList.toBulletedList(context)
         popularLabel.isInvisible = subscription.subscriptionType != SubscriptionType.MONTH
         card.isSelected = isSelected
 

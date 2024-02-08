@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app.common
+package ru.popkov.rtl_support_app.common.compose
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme

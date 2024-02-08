@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.popkov.rtl_support_app.R
-import ru.popkov.rtl_support_app.common.CommonButton
+import ru.popkov.rtl_support_app.common.compose.CommonButton
 import ru.popkov.rtl_support_app.navigation.Screens
 
 @Composable
