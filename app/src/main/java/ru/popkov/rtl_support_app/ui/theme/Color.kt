@@ -9,6 +9,4 @@ val BlackColor = Color(0xFF002128)
 val OrangeColor = Color(0xFFEF8251)
 val GrayColor = Color(0xFFBFC6CE)
 val BackgroundCarbColor = Color(0xFFF2F2F4)
-
-// Black variant
 val BackgroundBlackCarbColor = Color(0xFF181818)

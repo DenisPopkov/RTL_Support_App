@@ -1,7 +1,8 @@
-package ru.popkov.rtl_support_app.screens
+package ru.popkov.rtl_support_app.screens.compose
 
 import android.content.res.Configuration
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,13 +12,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -25,18 +29,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ru.popkov.rtl_support_app.R
-import ru.popkov.rtl_support_app.common.CommonButton
-import ru.popkov.rtl_support_app.common.RTLSubscriptionCard
-import ru.popkov.rtl_support_app.common.SubscriptionOffer
-import ru.popkov.rtl_support_app.models.interactor.RTLRepository
+import ru.popkov.rtl_support_app.common.compose.CommonButton
+import ru.popkov.rtl_support_app.common.compose.RTLSubscriptionCard
+import ru.popkov.rtl_support_app.common.compose.SubscriptionOffer
+import ru.popkov.rtl_support_app.screens.xml.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
@@ -45,17 +52,21 @@ import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme
 fun ComposeScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    subscriptionsViewModel: SubscriptionsViewModel = viewModel()
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             Box(
                 modifier = modifier
                     .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.surface)
-                    .padding(top = 16.dp, bottom = 36.dp),
+                    .background(color = MaterialTheme.colorScheme.surface),
             ) {
                 IconButton(
-                    modifier = modifier.align(Alignment.CenterStart),
+                    modifier = modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 12.dp),
                     onClick = { navController.navigateUp() }
                 ) {
                     Icon(
@@ -65,7 +76,9 @@ fun ComposeScreen(
                     )
                 }
                 Image(
-                    modifier = modifier.align(Alignment.Center),
+                    modifier = modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(top = 16.dp, bottom = 36.dp),
                     painter = painterResource(id = R.drawable.ic_logo),
                     contentDescription = "App bar logo",
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
@@ -74,8 +87,13 @@ fun ComposeScreen(
         },
     ) { innerPadding ->
 
-        val subscriptions = RTLRepository().loadRTLSubscriptions()
+        val subscriptions = subscriptionsViewModel.subscriptionsData.collectAsState()
+        val subscriptionData = subscriptions.value
         var selectedCardIndex by remember { mutableIntStateOf(value = 0) }
+
+        AnimatedVisibility(visible = subscriptionData.isLoading) {
+            CircularProgressIndicator()
+        }
 
         Column(
             modifier = modifier
@@ -84,36 +102,40 @@ fun ComposeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues = innerPadding),
         ) {
-
             Text(
-                modifier = modifier.padding(top = 16.dp),
+                modifier = modifier.padding(top = 16.dp, bottom = 4.dp),
                 text = stringResource(id = R.string.label),
                 style = GeometriaTextBold28,
                 color = MaterialTheme.colorScheme.onSurface,
             )
 
             Text(
-                modifier = modifier.padding(top = 16.dp, bottom = 20.dp),
+                modifier = modifier.padding(top = 12.dp, bottom = 20.dp),
                 text = stringResource(id = R.string.label_description),
                 style = GeometriaTextRegular16,
                 color = MaterialTheme.colorScheme.onSurface,
+                lineHeight = 22.sp,
             )
 
-            subscriptions.forEachIndexed { index, data ->
-                RTLSubscriptionCard(
-                    modifier = modifier.padding(bottom = 12.dp),
-                    subscriptionData = data,
-                    isSelected = index == selectedCardIndex,
-                    onClick = { selectedCardIndex = index }
-                )
+            subscriptionData.subscriptionModel.forEachIndexed { index, data ->
+                Column(
+                    modifier = modifier.padding(bottom = 14.dp),
+                ) {
+                    RTLSubscriptionCard(
+                        subscriptionData = data,
+                        isSelected = index == selectedCardIndex,
+                        onClick = { selectedCardIndex = index },
+                    )
+                }
             }
 
             SubscriptionOffer()
 
             Spacer(modifier = modifier.weight(1f))
+
             CommonButton(
-                modifier = modifier.padding(bottom = 10.dp, top = 36.dp),
-                buttonText = stringResource(id = R.string.subscribe_button)
+                modifier = modifier.padding(top = 36.dp),
+                buttonText = stringResource(id = R.string.subscribe_button),
             ) {}
         }
     }
@@ -131,7 +153,7 @@ private fun ComposeScreenPreview() {
         Surface {
             ComposeScreen(
                 modifier = Modifier,
-                navController = rememberNavController()
+                navController = rememberNavController(),
             )
         }
     }

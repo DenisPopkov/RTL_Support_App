@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app.common
+package ru.popkov.rtl_support_app.common.compose
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +23,7 @@ fun CommonButton(
 ) {
     TextButton(
         onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 18.dp),
+        contentPadding = PaddingValues(vertical = 14.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         shape = RoundedCornerShape(size = 2.dp),
         modifier = modifier.fillMaxWidth(),
@@ -31,7 +31,7 @@ fun CommonButton(
         Text(
             text = buttonText,
             style = GeometriaTextRegular16,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }
@@ -39,5 +39,7 @@ fun CommonButton(
 @Preview
 @Composable
 private fun CommonButtonPreview() {
-    CommonButton(buttonText = stringResource(id = R.string.subscribe_button))
+    CommonButton(
+        buttonText = stringResource(id = R.string.subscribe_button),
+    )
 }
