@@ -31,9 +31,9 @@ import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.popkov.rtl_support_app.R
+import ru.popkov.rtl_support_app.base.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.models.SubscriptionModel
 import ru.popkov.rtl_support_app.models.SubscriptionType
-import ru.popkov.rtl_support_app.screens.xml.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold20
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextMedium14
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular12

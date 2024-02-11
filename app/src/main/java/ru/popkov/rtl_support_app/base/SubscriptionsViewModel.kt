@@ -1,4 +1,4 @@
-package ru.popkov.rtl_support_app.screens.xml
+package ru.popkov.rtl_support_app.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
