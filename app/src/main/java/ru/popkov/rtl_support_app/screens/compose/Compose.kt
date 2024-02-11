@@ -40,10 +40,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ru.popkov.rtl_support_app.R
+import ru.popkov.rtl_support_app.base.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.common.compose.CommonButton
 import ru.popkov.rtl_support_app.common.compose.RTLSubscriptionCard
 import ru.popkov.rtl_support_app.common.compose.SubscriptionOffer
-import ru.popkov.rtl_support_app.screens.xml.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextBold28
 import ru.popkov.rtl_support_app.ui.theme.GeometriaTextRegular16
 import ru.popkov.rtl_support_app.ui.theme.RTLSupportAppTheme

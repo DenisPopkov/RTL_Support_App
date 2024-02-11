@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.popkov.rtl_support_app.base.MainActivity
+import ru.popkov.rtl_support_app.base.SubscriptionsViewModel
 import ru.popkov.rtl_support_app.common.xml.CardItemView
 import ru.popkov.rtl_support_app.databinding.FragmentMainBinding
 import ru.popkov.rtl_support_app.utils.getColorPrimary
